@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const Users = require('./auth-model')
+const Users = require('./authModel')
 const bcrypt = require('bcryptjs')
 
 const secrets = require('../config/secrets')
@@ -42,6 +42,17 @@ router.post('/login', (req, res) => {
       res.status(500).json({Error: 'there was an issue logging into the account!'})
     })
 });
+
+router.delete('/login/:id', (req, res) => {
+  const {id} = req.params
+  Users.remove(id)
+  .then(res => {
+      res.status(200).json({message: 'action deleted succesfully'})
+  })
+  .catch(error => {
+      res.status(500).json({error: "The action information could not be removed."})
+  })
+})
 
 //to create the token
 function generateToken(user) {
