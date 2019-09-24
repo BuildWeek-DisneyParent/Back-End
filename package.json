@@ -6,7 +6,7 @@
   "scripts": {
     "server": "nodemon index.js",
     "test": "jest --watch",
-    "start": "npm install --minipass@2.7.0 npm i sqlite3 && node index.js"
+    "start": "npm install --minipass@2.7.0 sqlite3 && node index.js"
   },
   "repository": {
     "type": "git",
