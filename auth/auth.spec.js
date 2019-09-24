@@ -1,5 +1,5 @@
-const auth = require('./auth-router')
-const db = require('../database/dbConfig')
+const auth = require('./authRouter')
+const db = require('../data/dbConfig')
 const request = require('supertest')
 
 describe('Status 201 when it creates a user', () => {
@@ -82,14 +82,14 @@ describe('Status 200 when login i successfull', () => {
 })
 })
 
-describe('Status 200 when login i successfull', () => {
-    it('responds with 200 when login i successfull', () => {
-        const correctUserToLog = {
-           id:'id'
+describe('Status 200 when login deleted successfully', () => {
+    it('responds with 200 when login is deleted', () => {
+        const correctUserToDel = {
+           id:'1'
         }
         request(auth)
           .delete('/login/:id')
-              .send(correctUserToLog)
+              .send(correctUserToDel)
               .then(res => {
                 expect(res.status).toBe(200)
     })  
