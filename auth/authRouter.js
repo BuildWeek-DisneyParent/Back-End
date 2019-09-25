@@ -27,7 +27,9 @@ router.post('/register', (req, res) => {
       .then(user => {
         res.status(201).json(user)
       })
-      
+      .catch(error => {
+        res.status(500).json({Error: 'there was an issue registering into the account!'})
+      })
   }
 );
 router.get("/login", (req, res) => {
