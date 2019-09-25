@@ -11,13 +11,13 @@ function findBy(item) {
 }
 
 function add(user) {
-    return db('users')
+    return data('users')
       .insert(user, 'id')
       .then(([id]) => this.findById(id));
   }
 
 function remove(id) {
-    return db('users')
+    return data('users')
       .where('id', id)
       .del();
   }
