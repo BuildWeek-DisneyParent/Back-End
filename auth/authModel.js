@@ -10,9 +10,11 @@ function findBy(item) {
     return data('users').where(item)
 }
 
-async function add(user) {
-    const [id] = await data('users').insert(user)
-}
+function add(user) {
+    return db('users')
+      .insert(user, 'id')
+      .then(([id]) => this.findById(id));
+  }
 
 function remove(id) {
     return db('users')
