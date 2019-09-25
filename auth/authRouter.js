@@ -7,15 +7,15 @@ const secrets = require('../config/secrets')
 const jwt = require('jsonwebtoken')
 
 router.post('/register', (req, res) => {
-  let user = req.body
+  let { email, password, fullname, username } = req.body
   
-  if (!user.username || !user.password || !user.email) {
+  if (!email || !password || !fullname || !username) {
     res.status(401).json({Message: "Please provide username, password, and email"})
   } else {
-    const hash = bcrypt.hashSync(user.password, 12)
-    user.password = hash
+    const hash = bcrypt.hashSync(password, 12)
+    password = hash
 
-    Users.add(user)
+    Users.add({ email, password, fullname, username })
       .then(user => {
         res.status(201).json(req.body)
       })
