@@ -7,17 +7,17 @@ module.exports = {
 }
 
 function findBy(item) {
-    return data('users').where(item)
+    return data('auth').where(item)
 }
 
 function add(user) {
-    return data('users')
+    return data('auth')
       .insert(user, 'id')
       .then(([id]) => this.findById(id));
   }
 
 function remove(id) {
-    return data('users')
+    return data('auth')
       .where('id', id)
       .del();
   }
