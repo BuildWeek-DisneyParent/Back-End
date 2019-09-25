@@ -9,12 +9,14 @@ const jwt = require('jsonwebtoken')
 router.post('/register', (req, res) => {
   let { email, password, fullname, username } = req.body
   
-  if (!email || !password || !fullname || !username) {
-    res.status(401).json({Message: "Please provide username, password, and email"})
-  } else {
+  if (email && password && fullname && username) {
+  
     const hash = bcrypt.hashSync(password, 12)
     password = hash
-
+  }
+  else{
+    res.status(401).json({Message: "Please provide username, password, and email"})
+  }
     Users.add({ email, password, fullname, username })
       .then(user => {
         res.status(201).json(req.body)
@@ -23,7 +25,7 @@ router.post('/register', (req, res) => {
         res.status(500).json({Error: 'there was an issue createing the user account in the database'})
       })
   }
-});
+);
 
 router.post('/login', (req, res) => {
   let {username, password} = req.body
