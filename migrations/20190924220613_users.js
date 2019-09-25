@@ -7,6 +7,13 @@ exports.up = function(knex) {
         .notNullable()
         .unique();
       tbl.string('password', 255).notNullable();
+      tbl
+      .string('email', 50)
+      .notNullable()
+      .unique();
+      tbl
+      .string('fullname', 50)
+      .notNullable();
     });
   };
   
