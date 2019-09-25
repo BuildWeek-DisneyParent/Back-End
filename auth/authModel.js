@@ -1,11 +1,14 @@
 const data = require('../data/dbConfig')
 
 module.exports = {
+    findAll,
     findBy,
     add,
     remove
 }
-
+function findAll(){
+    return data('auth')
+}
 function findBy(item) {
     return data('auth').where(item)
 }
