@@ -17,7 +17,7 @@ router.post('/register', (req, res) => {
 
     Users.add(user)
       .then(user => {
-        res.status(201).json(user)
+        res.status(201).json(req.body)
       })
       .catch(error => {
         res.status(500).json({Error: 'there was an issue createing the user account in the database'})
