@@ -6,6 +6,12 @@ const bcrypt = require('bcryptjs')
 const secrets = require('../config/secrets')
 const jwt = require('jsonwebtoken')
 
+router.get("/", (req, res) => {
+  Users.findAll().then(users => {
+    res.status(200).json(users);
+  });
+});
+
 router.post('/register', (req, res) => {
   let { email, password, fullname, username } = req.body
   
