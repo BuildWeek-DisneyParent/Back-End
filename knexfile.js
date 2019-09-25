@@ -1,9 +1,4 @@
-const localPg = {
-  host: "localhost",
-  database: "auth",
-  user: "admin",
-  password: "admin"
-};
+
 
 module.exports = {
   development: {

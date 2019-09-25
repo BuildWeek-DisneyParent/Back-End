@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken')
 router.post('/register', (req, res) => {
   let user = req.body
   
-  if (!user.username || !user.password ||!user.email) {
+  if (!user.username || !user.password) {
     res.status(401).json({Message: "Please provide username, password, and email"})
   } else {
     const hash = bcrypt.hashSync(user.password, 12)
