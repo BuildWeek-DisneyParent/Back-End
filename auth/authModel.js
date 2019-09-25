@@ -1,4 +1,4 @@
-const data = require('./data/dbConfig')
+const data = require('../data/dbConfig')
 
 module.exports = {
     findBy,
