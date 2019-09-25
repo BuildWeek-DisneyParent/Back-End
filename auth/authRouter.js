@@ -32,7 +32,12 @@ router.post('/register', (req, res) => {
       })
   }
 );
-
+router.get("/login", (req, res) => {
+  Users.findAll().then(users => {
+    res.status(200).json(users);
+  });
+  
+});
 router.post('/login', (req, res) => {
   let {username, password} = req.body
 
