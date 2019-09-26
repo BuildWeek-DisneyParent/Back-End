@@ -23,7 +23,7 @@ parent.find()
 })
 
 //parent by id
-router.get('/parents/:id', restricted, (req, res) => {
+router.get('/parents/:id',(req, res) => {
   parent.findById()
       .then(users => {
       res.json(users);
@@ -33,15 +33,15 @@ router.get('/parents/:id', restricted, (req, res) => {
 // addParentID takes user_id from decoded token, adds to user req body
 // reqBodyCheck ensures all required fields are present
 router.post('/parents', (req, res) => {
-  let {email, name, about, phone, parent_id } = req.body;
+  let {parent_email, name, about, phone, parent_id } = req.body;
 
 
-    parent.add({email, name, about, phone, parent_id })
+    parent.add(req.body)
       .then(newUser => {
         res.status(201).json({
           name: newUser.name,
           about: newUser.about,
-          email: newUser.email,
+          email: newUser.parent_email,
           phone: newUser.phone,
           parent_id: newUser.parent_id
         });
