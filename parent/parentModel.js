@@ -16,13 +16,14 @@ module.exports = {
 };
 
 function find() {
-  return data("parentInfo");
+  return data("parentsInfo");
 }
 
 function findById(id) {
-  return data("parentInfo as p")
+  return data("parentsInfo as p")
   .join('register as r', 'p.parent_id', 'r.id')
   .where('p.parent_id', id)
+  .select('r.id', 'p.name', 'r.email', 'p.about', 'p.phone')
 }
 
 /*function addParentID(req, res, next) {
@@ -50,19 +51,19 @@ function findById(id) {
   }
 }*/
 function update(id, changes) {
-  return db('parentInfo')
+  return db('parentsInfo')
     .where({ id })
     .update(changes);
 }
 
 function add(user) {
-  return db('parentInfo')
+  return db('parentsInfo')
     .insert(user, 'id')
     .then(([id]) => this.findById(id));
 }
 
 function remove(id) {
-  return db('parentInfo')
+  return db('parentsInfo')
     .where('id', id)
     .del();
 }

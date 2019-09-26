@@ -2,83 +2,82 @@ const express = require("express");
 const router = express.Router();
 const parent = require("./parentModel");
 const data = require("../data/dbConfig");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+//const bcrypt = require("bcryptjs");
+//const jwt = require("jsonwebtoken");
 
 // Base URL - /kitchen
 
 
 
-router.get("/parents", (req, res) => {
+router.get('/parents', (req, res) => {
   let id = req.body
-  parent
-    .getParent(id)
-    .then(userparentInfo => {
-      res.status(200).json(userparentInfo);
-    })
-    .catch(error => {
-      res.status(500).json({ Error: "Something's gone horribly wrong" });
-    });
+  parent.find(id)
+    .then(users => {
+      res.status(200).json(users)
+    
+});
+
 });
 
 // addParentID takes user_id from decoded token, adds to user req body
 // reqBodyCheck ensures all required fields are present
-router.post(
-  "/parents",
-  parent.addParentID,
-  parent.reqBodyCheckPost,
-  (req, res) => {
-    const newInven = req.body;
-    let id = req.userInfo.subject;
-    // adds new item to database
-    parent
-      .addNewparentInfoItem(newInven)
-      .then(newItemId => {
-        // Per front-end request, fetches user's new parentInfo
-        parent.getUserparentInfo(id).then(userparentInfo => {
-          // Sends frontend new item number + user's parentInfo
-          res.status(200).json({ newItemId, userparentInfo });
+router.post('/parents', (req, res) => {
+  let { email, name, about, phone } = req.body;
+
+
+    Users.add({ email, name, about, phone })
+      .then(newUser => {
+        res.status(201).json({
+          id: newUser.id,
+          name: newUser.name,
+          about: newUser.about,
+          email: newUser.email,
+          phone: newUser.phone
         });
       })
       .catch(error => {
-        res.status(500).json({ Error: "Something's gone horribly wrong" });
+        res.status(500).json({
+          error: 'An error occurred during the creation of a new user.',
+        });
       });
-  }
-);
+  
+});
 
 // addParentID adds proper user ID
 // reqBodyCheck ensures all required fields are present
-router.put(
-  "/parents",
-  parent.addParentID,
-  parent.reqBodyCheckPut,
-  (req, res) => {
-    const editItem = req.body;
-    // data call to parentInfo checks if user has authorization to delete the item
-    data("parentInfo")
-      .where({ id: editItem.id })
-      .first()
-      .then(item => {
-        // checks if the user_id added by parent.addParentID is the same as the userID
-        // in the database on the item to be deleted
-        if (editItem.id != item.id) {
-          // Forbids users from editing parentInfo items they don't own
-          res.status(401).json({
-            Error: "You are not authorized to edit another user's parentInfo"
-          });
-        } else {
-          parent.editparentInfo(editItem).then(editedItem => {
-            res.status(200).json(editedItem);
-          });
-        }
-      })
-      .catch(error => {
-        res.status(500).json({ Error: "Something's gone horribly wrong" });
+router.put('/parents/:id', async (req, res) => {
+    console.log( req.user);
+    try {
+      const {
+        body: { email,name, about, phone  },
+        user: { id },
+      } = req;
+
+      const successFlag = await Users.update(id, {email,
+        name, about, phone 
       });
-  }
+      return successFlag > 0
+        ? res.status(200).json({
+            message: `The user with the id ${id} has been successfully updated!`,
+          })
+        : res.status(500).json({
+            error: `An error occurred within the database thus the user with the id ${id} could not be updated.`,
+          });
+    } catch (error) {
+      const {
+        user: { id },
+      } = req;
+
+      res.status(500).json({
+        error:
+          `An error occurred during updating the user with the id ${id}.` +
+          error,
+      });
+    }
+  },
 );
 
-router.delete(
+/*router.delete(
   "/parents/:id",
   parent.addParentID,
   parent.reqBodyCheckDelete,
@@ -103,6 +102,6 @@ router.delete(
         res.status(500).json({ Error: "Something's gone horribly wrong" });
       });
   }
-);
+);*/
 
 module.exports = router;
