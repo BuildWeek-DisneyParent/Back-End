@@ -1,30 +1,27 @@
-const data = require("../data/data-Config");
+const data = require("../data/dbConfig");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
   getAll,
-  getParent,
+  getParentID,
   addNewParentInfoItem,
   addParentID,
-  editParentInfo,
-  deleteItem
-  
+  editParentInfo 
 };
 
 function getAll() {
   return data("parentInfo");
 }
 
-function getParent(id) {
+function getParentID(id) {
   return data("parentInfo as p")
   .join('register as r', 'p.parent_id', 'r.id')
   .where('p.parent_id', id)
-  .select('p.name', 'r.fullname', 'r.email', "p.parent_email")
 }
 
 function addParentID(req, res, next) {
-  req.body.id = req.userInfo.subject;
+  req.body.id = req.parentInfo.subject;
   next();
 }
 
@@ -39,9 +36,5 @@ function editParentInfo(item) {
     .update(item);
 }
 
-function deleteItem(deleteId) {
-  return data("parentInfo")
-    .where({ id: deleteId })
-    .del();
-}
+
 
