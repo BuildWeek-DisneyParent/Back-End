@@ -79,7 +79,7 @@ router.put(
 );
 
 router.delete(
-  "/parentInfo/:id",
+  "/parents/:id",
   parent.addParentID,
   parent.reqBodyCheckDelete,
   (req, res) => {

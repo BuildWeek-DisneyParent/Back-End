@@ -3,51 +3,70 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-  getAll,
-  getParentID,
-  addNewParentInfoItem,
-  addParentID,
-  editParentInfo,
-  reqBodyCheckDelete,
-  reqBodyCheckPost
+  find,
+  findById,
+  //addNewParentInfoItem,
+  //addParentID,
+  //editParentInfo,
+  //reqBodyCheckDelete,
+  //reqBodyCheckPost,
+  update,
+  remove,
+  add
 };
 
-function getAll() {
+function find() {
   return data("parentInfo");
 }
 
-function getParentID(id) {
+function findById(id) {
   return data("parentInfo as p")
   .join('register as r', 'p.parent_id', 'r.id')
   .where('p.parent_id', id)
 }
 
-function addParentID(req, res, next) {
+/*function addParentID(req, res, next) {
   req.body.id = req.parentInfo.subject;
   next();
-}
+}*/
 
 // user_id handled by middleware, addUserID
-function addNewParentInfoItem(newparentInfo) {
+/*function addNewParentInfoItem(newparentInfo) {
   return data("parentInfo").insert(newparentInfo);
-}
+}*/
 
-function editParentInfo(item) {
+/*function editParentInfo(item) {
   return data("parentInfo")
     .where({ id: item.id })
     .update(item);
-}
+}*/
 
 
-function reqBodyCheckDelete(req, res, next) {
+/*function reqBodyCheckDelete(req, res, next) {
   if (req.params.id) {
     next();
   } else {
     res.status(400).json({ Error: "Your request is missing a required field" });
   }
+}*/
+function update(id, changes) {
+  return db('parentInfo')
+    .where({ id })
+    .update(changes);
 }
 
-function reqBodyCheckPost(req, res, next) {
+function add(user) {
+  return db('parentInfo')
+    .insert(user, 'id')
+    .then(([id]) => this.findById(id));
+}
+
+function remove(id) {
+  return db('parentInfo')
+    .where('id', id)
+    .del();
+}
+/*function reqBodyCheckPost(req, res, next) {
   if (
     req.body.quantity &&
     req.body.weightUnit &&
@@ -57,5 +76,5 @@ function reqBodyCheckPost(req, res, next) {
     next();
   } else {
     res.status(400).json({ Error: "Your request is missing a required field" });
-  }
-}
+  }*/
+
