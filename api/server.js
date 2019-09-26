@@ -1,7 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const authentic = require('../auth/Restricted-middleware')
+//const authentic = require('../auth/Restricted-middleware')
 const authRouter = require('../auth/authRouter.js');
 const parentRouter = require('../parent/parentRouter');
 
