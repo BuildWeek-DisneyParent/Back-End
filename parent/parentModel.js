@@ -1,6 +1,6 @@
 const data = require("../data/dbConfig");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+//const bcrypt = require("bcryptjs");
+//const jwt = require("jsonwebtoken");
 
 module.exports = {
   find,
@@ -51,19 +51,19 @@ function findById(id) {
   }
 }*/
 function update(id, changes) {
-  return db('parentsInfo')
+  return data('parentsInfo')
     .where({ id })
     .update(changes);
 }
 
 function add(user) {
-  return db('parentsInfo')
+  return data('parentsInfo')
     .insert(user, 'id')
     .then(([id]) => this.findById(id));
 }
 
 function remove(id) {
-  return db('parentsInfo')
+  return data('parentsInfo')
     .where('id', id)
     .del();
 }

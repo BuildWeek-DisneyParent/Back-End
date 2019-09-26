@@ -25,7 +25,12 @@ router.post('/register', (req, res) => {
   }
     Users.add({ email, password, fullname, username })
       .then(user => {
-        res.status(201).json(user)
+        res.status(201).json({
+          fullname: user.fullname,
+          username: user.username,
+          email: user.email,
+          password: user.password
+        })
       })
       .catch(error => {
         res.status(500).json({Error: 'there was an issue registering into the account!'})

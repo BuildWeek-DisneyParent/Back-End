@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const parent = require("./parentModel");
-const data = require("../data/dbConfig");
+//const data = require("../data/dbConfig");
 //const bcrypt = require("bcryptjs");
 //const jwt = require("jsonwebtoken");
 
@@ -10,8 +10,7 @@ const data = require("../data/dbConfig");
 
 
 router.get('/parents', (req, res) => {
-  let id = req.body
-  parent.find(id)
+  parent.find()
     .then(users => {
       res.status(200).json(users)
     
@@ -22,17 +21,17 @@ router.get('/parents', (req, res) => {
 // addParentID takes user_id from decoded token, adds to user req body
 // reqBodyCheck ensures all required fields are present
 router.post('/parents', (req, res) => {
-  let { email, name, about, phone } = req.body;
+  let {email, name, about, phone, parent_id } = req.body;
 
 
-    Users.add({ email, name, about, phone })
+    parent.add({email, name, about, phone, parent_id })
       .then(newUser => {
         res.status(201).json({
-          id: newUser.id,
           name: newUser.name,
           about: newUser.about,
           email: newUser.email,
-          phone: newUser.phone
+          phone: newUser.phone,
+          parent_id: newUser.parent_id
         });
       })
       .catch(error => {
