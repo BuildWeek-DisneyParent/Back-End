@@ -1,4 +1,4 @@
-const data = require("../data/dbConfig");
+/*const data = require("../data/dbConfig");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -34,7 +34,7 @@ function editParentInfo(item) {
   return data("parentInfo")
     .where({ id: item.id })
     .update(item);
-}
+}*/
 
 
 
