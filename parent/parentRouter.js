@@ -4,20 +4,32 @@ const parent = require("./parentModel");
 //const data = require("../data/dbConfig");
 //const bcrypt = require("bcryptjs");
 //const jwt = require("jsonwebtoken");
-
+const restricted = require('../auth/Restricted-middleware');
 // Base URL - /kitchen
 
 
 
-router.get('/parents', (req, res) => {
-  parent.find()
-    .then(users => {
-      res.status(200).json(users)
-    
-});
+//GET LIST OF ALL PARENTS
+router.get('/parents', (req,res) => {
+parent.find()
+   .then(parents =>{
+          res.status(200).json(parents)
+        })
 
-});
+   .catch(error => {
+      res.status(500).json({error: 'Could not retrieve list of parents.'});
+  })
 
+})
+
+//parent by id
+router.get('/parents/:id', restricted, (req, res) => {
+  parent.findById()
+      .then(users => {
+      res.json(users);
+      })
+      .catch(err => res.send(err));
+    });
 // addParentID takes user_id from decoded token, adds to user req body
 // reqBodyCheck ensures all required fields are present
 router.post('/parents', (req, res) => {
@@ -44,37 +56,20 @@ router.post('/parents', (req, res) => {
 
 // addParentID adds proper user ID
 // reqBodyCheck ensures all required fields are present
-router.put('/parents/:id', async (req, res) => {
-    console.log( req.user);
-    try {
-      const {
-        body: { email,name, about, phone  },
-        user: { id },
-      } = req;
+//UPDATE THE ID
+router.put('/parents/:id', restricted, (req, res) => {
 
-      const successFlag = await Users.update(id, {email,
-        name, about, phone 
-      });
-      return successFlag > 0
-        ? res.status(200).json({
-            message: `The user with the id ${id} has been successfully updated!`,
-          })
-        : res.status(500).json({
-            error: `An error occurred within the database thus the user with the id ${id} could not be updated.`,
-          });
-    } catch (error) {
-      const {
-        user: { id },
-      } = req;
+  if (req.body.password){
+      const hash = bcrypt.hashSync(req.body.password, 10);
+      req.body.password = hash;
+  }
 
-      res.status(500).json({
-        error:
-          `An error occurred during updating the user with the id ${id}.` +
-          error,
-      });
-    }
-  },
-);
+  parent.update()
+      .then(users => {
+      res.json(users);
+      })
+      .catch(err => res.send(err));
+});
 
 /*router.delete(
   "/parents/:id",
@@ -102,5 +97,17 @@ router.put('/parents/:id', async (req, res) => {
       });
   }
 );*/
+
+//DELETE 
+router.delete('/parents/:id', async() => {
+  try {
+      const parents = await parent.remove();
+      if(parents) {
+          const post = await postMessage.get
+      }
+  } catch (error) {
+      
+  }
+  })
 
 module.exports = router;

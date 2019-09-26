@@ -21,7 +21,7 @@ function find() {
 
 function findById(id) {
   return data("parentsInfo as p")
-  .join('register as r', 'p.parent_id', 'r.id')
+  .join('register as r', 'p.parent_id','=', 'r.id', 'p.parent_email','=','r.email')
   .where('p.parent_id', id)
   .select('r.id', 'p.name', 'r.email', 'p.about', 'p.phone')
 }
