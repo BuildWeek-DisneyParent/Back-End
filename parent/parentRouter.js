@@ -1,4 +1,4 @@
-/*const express = require("express");
+const express = require("express");
 const router = express.Router();
 const parent = require("./parentModel");
 const data = require("../data/dbConfig");
@@ -105,4 +105,4 @@ router.delete(
   }
 );
 
-module.exports = router;*/
+module.exports = router;

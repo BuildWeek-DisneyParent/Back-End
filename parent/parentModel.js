@@ -1,4 +1,4 @@
-/*const data = require("../data/dbConfig");
+const data = require("../data/dbConfig");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -7,7 +7,9 @@ module.exports = {
   getParentID,
   addNewParentInfoItem,
   addParentID,
-  editParentInfo 
+  editParentInfo,
+  reqBodyCheckDelete,
+  reqBodyCheckPost
 };
 
 function getAll() {
@@ -34,7 +36,26 @@ function editParentInfo(item) {
   return data("parentInfo")
     .where({ id: item.id })
     .update(item);
-}*/
+}
 
 
+function reqBodyCheckDelete(req, res, next) {
+  if (req.params.id) {
+    next();
+  } else {
+    res.status(400).json({ Error: "Your request is missing a required field" });
+  }
+}
 
+function reqBodyCheckPost(req, res, next) {
+  if (
+    req.body.quantity &&
+    req.body.weightUnit &&
+    req.body.inventoryItem &&
+    req.body.user_id
+  ) {
+    next();
+  } else {
+    res.status(400).json({ Error: "Your request is missing a required field" });
+  }
+}
