@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const authRouter = require('../auth/authRouter.js');
-const parentRouter = require('../parent/parentRouter')
+const parentRouter = require('../parent/parentRouter');
 
 const server = express();
 
