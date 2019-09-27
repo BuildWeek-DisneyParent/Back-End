@@ -33,7 +33,7 @@ router.get('/parents/:id',(req, res) => {
 // addParentID takes user_id from decoded token, adds to user req body
 // reqBodyCheck ensures all required fields are present
 router.post('/parents', (req, res) => {
-  let {parent_email, name, about, phone, parent_id } = req.body;
+  let {parent_email, name, about, phone } = req.body;
 
 
     parent.add(req.body)
@@ -42,8 +42,7 @@ router.post('/parents', (req, res) => {
           name: newUser.name,
           about: newUser.about,
           email: newUser.parent_email,
-          phone: newUser.phone,
-          parent_id: newUser.parent_id
+          phone: newUser.phone
         });
       })
       .catch(error => {
