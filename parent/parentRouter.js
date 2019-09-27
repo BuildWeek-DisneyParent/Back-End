@@ -41,7 +41,7 @@ router.post('/parents', (req, res) => {
         res.status(201).json({
           name: newUser.name,
           about: newUser.about,
-          email: newUser.parent_email,
+          parent_email: newUser.parent_email,
           phone: newUser.phone
         });
       })
@@ -56,20 +56,18 @@ router.post('/parents', (req, res) => {
 // addParentID adds proper user ID
 // reqBodyCheck ensures all required fields are present
 //UPDATE THE ID
-router.put('/parents/:id', restricted, (req, res) => {
-
-  if (req.body.password){
-      const hash = bcrypt.hashSync(req.body.password, 10);
-      req.body.password = hash;
+//UPDATE SPECEIFIED POST
+router.put("/parents/:id", restricted, async (req, res) => {
+  try {
+    const updatedPost = await Post.update(req.params.id, req.body);
+    if (updatedPost)
+      res
+        .status(200)
+        .json({ message: `parent: ${updatedPost}`, updatedPostInfo: req.body });
+  } catch (error) {
+    res.status(500).json({ message: "There was Error updating the post" });
   }
-
-  parent.update()
-      .then(users => {
-      res.json(users);
-      })
-      .catch(err => res.send(err));
 });
-
 /*router.delete(
   "/parents/:id",
   parent.addParentID,
